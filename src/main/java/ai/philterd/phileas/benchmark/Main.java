@@ -19,7 +19,6 @@ package ai.philterd.phileas.benchmark;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,8 +48,6 @@ public class Main {
 
         // create redactor based on Phileas PII engine
         final Redactor redactor = new Redactor(arg_redactor);
-
-        final List<Result> results = new LinkedList<>();
 
         // repeatedly redact documents and print results
         final List<String> documents = "all".equals(arg_document) ? Documents.keys : List.of(arg_document);
@@ -89,22 +86,23 @@ public class Main {
 
                 }
 
-                final Result result = new Result();
-                result.setWorkloadMillis(workload_millis);
-                result.setRedactor(arg_redactor);
-                result.setDocument(document);
-                result.setCallsPerSecond(calls);
+                if(arg_format.equals("json")) {
 
-                results.add(result);
+                    final Result result = new Result();
+                    result.setWorkloadMillis(workload_millis);
+                    result.setRedactor(arg_redactor);
+                    result.setDocument(document);
+                    result.setCallsPerSecond(calls);
+
+                    final Gson gson = new Gson();
+                    System.out.println(gson.toJson(result));
+                }
 
             }
 
         }
 
-        if(arg_format.equals("json")) {
-            final Gson gson = new Gson();
-            System.out.println(gson.toJson(results));
-       }
+
 
     }
 
