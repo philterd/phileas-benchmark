@@ -18,10 +18,16 @@ package ai.philterd.phileas.benchmark;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class Result {
+
+    @SerializedName("phileas_version")
+    private String phileasVersion;
 
     private String document;
     private String redactor;
@@ -32,8 +38,17 @@ public class Result {
     @SerializedName("calls_per_sec")
     private Map<Integer, Long> callsPerSecond;
 
-    public Result() {
+    private long timestamp;
+
+    public Result() throws IOException {
         this.callsPerSecond = new HashMap<>();
+
+        final InputStream is = this.getClass().getResourceAsStream("/phileas.properties");
+        final Properties p = new Properties();
+        p.load(is);
+
+        this.phileasVersion = p.getProperty("phileas.version");
+        this.timestamp = System.currentTimeMillis();
     }
 
     public String getDocument() {
@@ -68,4 +83,19 @@ public class Result {
         this.callsPerSecond = callsPerSecond;
     }
 
+    public String getPhileasVersion() {
+        return phileasVersion;
+    }
+
+    public void setPhileasVersion(String phileasVersion) {
+        this.phileasVersion = phileasVersion;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 }
