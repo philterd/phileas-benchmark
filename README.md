@@ -5,11 +5,11 @@ This command-line utility runs a series of single-threaded workloads using [Phil
 to redact PII tokens in strings of varying sizes. Workloads can be run multiple times to warm up the JVM or test long-term use.
 Workloads run for a fixed amount of time rather than a fixed number of iterations.
 
-[![CodeFactor](https://www.codefactor.io/repository/github/resurfaceio/phileas-benchmark/badge)](https://www.codefactor.io/repository/github/resurfaceio/phileas-benchmark)
+[![CodeFactor](https://www.codefactor.io/repository/github/philterd/phileas-benchmark/badge)](https://www.codefactor.io/repository/github/resurfaceio/phileas-benchmark)
 
 ## Dependencies
 
-* Java 22
+* Java 21
 * Maven 3.9.x
 * [philterd/phileas](https://github.com/philterd/phileas) 
 
@@ -23,6 +23,12 @@ java -server -Xmx512M -XX:+AlwaysPreTouch -XX:PerBytecodeRecompilationCutoff=100
 
 # run workloads for specific document
 java -server -Xmx512M -XX:+AlwaysPreTouch -XX:PerBytecodeRecompilationCutoff=10000 -XX:PerMethodRecompilationCutoff=10000 -jar target/phileas-benchmark-cmd.jar gettysberg_address mask_credit_cards 1 1000
+```
+
+To get the results back as a JSON object, append a `json` argument to the command:
+
+```
+java -server -Xmx512M -XX:+AlwaysPreTouch -XX:PerBytecodeRecompilationCutoff=10000 -XX:PerMethodRecompilationCutoff=10000 -jar target/phileas-benchmark-cmd.jar all mask_all 1 15000 json
 ```
 
 ### Available documents
