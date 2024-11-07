@@ -1,0 +1,20 @@
+services:
+
+  opensearch:
+    image: opensearchproject/opensearch:2.18.0
+    container_name: opensearch
+    environment:
+      discovery.type: single-node
+      node.name: opensearch
+      plugins.security.disabled: "true"
+      logger.level: info
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: SuperSecretPassword_123
+    ports:
+      - 9200:9200
+      - 9600:9600
+    networks:
+      - opensearch
+
+networks:
+  opensearch:
+    driver: bridge
