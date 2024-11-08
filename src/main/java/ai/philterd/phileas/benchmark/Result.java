@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 public class Result {
 
@@ -38,6 +39,9 @@ public class Result {
     @SerializedName("calls_per_sec")
     private Map<Integer, Long> callsPerSecond;
 
+    @SerializedName("run_id")
+    private String runId;
+
     private long timestamp;
 
     public Result() throws IOException {
@@ -49,6 +53,7 @@ public class Result {
 
         this.phileasVersion = p.getProperty("phileas.version");
         this.timestamp = System.currentTimeMillis();
+        this.runId = UUID.randomUUID().toString();
     }
 
     public String getDocument() {
