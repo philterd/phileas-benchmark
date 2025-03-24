@@ -32,7 +32,7 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
-                            <finalName>main</finalName>
+                            <finalName>${project.artifactId}</finalName>
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
