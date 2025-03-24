@@ -16,6 +16,7 @@
 
 package ai.philterd.phileas.benchmark;
 
+import ai.philterd.phileas.model.cache.InMemoryCache;
 import ai.philterd.phileas.model.configuration.PhileasConfiguration;
 import ai.philterd.phileas.model.enums.MimeType;
 import ai.philterd.phileas.model.policy.Identifiers;
@@ -46,6 +47,7 @@ import ai.philterd.phileas.model.policy.filters.strategies.rules.SsnFilterStrate
 import ai.philterd.phileas.model.policy.filters.strategies.rules.TrackingNumberFilterStrategy;
 import ai.philterd.phileas.model.policy.filters.strategies.rules.VinFilterStrategy;
 import ai.philterd.phileas.model.responses.FilterResponse;
+import ai.philterd.phileas.model.services.CacheService;
 import ai.philterd.phileas.services.PhileasFilterService;
 
 import java.util.List;
@@ -203,7 +205,8 @@ public class Redactor {
         policy.setIdentifiers(identifiers);
         Properties properties = new Properties();
         PhileasConfiguration configuration = new PhileasConfiguration(properties, "phileas");
-        this.filterService = new PhileasFilterService(configuration);
+        CacheService cacheService = new InMemoryCache();
+        this.filterService = new PhileasFilterService(configuration, cacheService);
     }
 
     private final PhileasFilterService filterService;

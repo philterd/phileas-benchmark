@@ -13,7 +13,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <phileas.version>2.10.0</phileas.version>
+        <phileas.version>2.13.0-SNAPSHOT</phileas.version>
     </properties>
 
     <build>
@@ -23,7 +23,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <release>21</release>
+                    <release>17</release>
                     <compilerArgument>-proc:none</compilerArgument>
                 </configuration>
             </plugin>
@@ -47,9 +47,10 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
+                    <finalName>phileas-benchmark-cmd</finalName>
                     <archive>
                         <manifest>
-                            <mainClass>fully.qualified.MainClass</mainClass>
+                            <mainClass>ai.philterd.phileas.benchmark.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
