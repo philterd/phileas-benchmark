@@ -10,6 +10,8 @@ Workloads run for a fixed amount of time rather than a fixed number of iteration
 
 Documentation is available at https://philterd.ai/docs/phileas-benchmark.
 
+Questions, ideas, or want to contribute? Users and developers are invited to [join the Philterd Slack workspace](https://philterd.ai/slack/).
+
 [![CodeFactor](https://www.codefactor.io/repository/github/philterd/phileas-benchmark/badge)](https://www.codefactor.io/repository/github/resurfaceio/phileas-benchmark)
 
 ## Dependencies
