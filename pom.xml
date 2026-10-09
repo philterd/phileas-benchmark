@@ -13,7 +13,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <phileas.version>2.13.0-SNAPSHOT</phileas.version>
+        <phileas.version>4.4.0</phileas.version>
     </properties>
 
     <build>
@@ -73,7 +73,7 @@
     <dependencies>
         <dependency>
             <groupId>ai.philterd</groupId>
-            <artifactId>phileas-core</artifactId>
+            <artifactId>phileas</artifactId>
             <version>${phileas.version}</version>
         </dependency>
 
@@ -97,22 +97,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>philterd-repository-releases</id>
-            <url>https://artifacts.philterd.ai/releases</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>philterd-repository-snapshots</id>
-            <url>https://artifacts.philterd.ai/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
 </project>

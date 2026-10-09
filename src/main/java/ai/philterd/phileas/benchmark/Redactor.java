@@ -16,39 +16,38 @@
 
 package ai.philterd.phileas.benchmark;
 
-import ai.philterd.phileas.model.cache.InMemoryCache;
-import ai.philterd.phileas.model.configuration.PhileasConfiguration;
-import ai.philterd.phileas.model.enums.MimeType;
-import ai.philterd.phileas.model.policy.Identifiers;
-import ai.philterd.phileas.model.policy.Policy;
-import ai.philterd.phileas.model.policy.filters.BankRoutingNumber;
-import ai.philterd.phileas.model.policy.filters.BitcoinAddress;
-import ai.philterd.phileas.model.policy.filters.CreditCard;
-import ai.philterd.phileas.model.policy.filters.DriversLicense;
-import ai.philterd.phileas.model.policy.filters.EmailAddress;
-import ai.philterd.phileas.model.policy.filters.IbanCode;
-import ai.philterd.phileas.model.policy.filters.IpAddress;
-import ai.philterd.phileas.model.policy.filters.PassportNumber;
-import ai.philterd.phileas.model.policy.filters.PhoneNumber;
-import ai.philterd.phileas.model.policy.filters.Ssn;
-import ai.philterd.phileas.model.policy.filters.TrackingNumber;
-import ai.philterd.phileas.model.policy.filters.Vin;
-import ai.philterd.phileas.model.policy.filters.strategies.AbstractFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.BankRoutingNumberFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.BitcoinAddressFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.CreditCardFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.DriversLicenseFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.EmailAddressFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.IbanCodeFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.IpAddressFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.PassportNumberFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.PhoneNumberFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.SsnFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.TrackingNumberFilterStrategy;
-import ai.philterd.phileas.model.policy.filters.strategies.rules.VinFilterStrategy;
-import ai.philterd.phileas.model.responses.FilterResponse;
-import ai.philterd.phileas.model.services.CacheService;
-import ai.philterd.phileas.services.PhileasFilterService;
+import ai.philterd.phileas.PhileasConfiguration;
+import ai.philterd.phileas.policy.Identifiers;
+import ai.philterd.phileas.policy.Policy;
+import ai.philterd.phileas.policy.filters.BankRoutingNumber;
+import ai.philterd.phileas.policy.filters.BitcoinAddress;
+import ai.philterd.phileas.policy.filters.CreditCard;
+import ai.philterd.phileas.policy.filters.DriversLicense;
+import ai.philterd.phileas.policy.filters.EmailAddress;
+import ai.philterd.phileas.policy.filters.IbanCode;
+import ai.philterd.phileas.policy.filters.IpAddress;
+import ai.philterd.phileas.policy.filters.PassportNumber;
+import ai.philterd.phileas.policy.filters.PhoneNumber;
+import ai.philterd.phileas.policy.filters.Ssn;
+import ai.philterd.phileas.policy.filters.TrackingNumber;
+import ai.philterd.phileas.policy.filters.Vin;
+import ai.philterd.phileas.services.strategies.AbstractFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.BankRoutingNumberFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.BitcoinAddressFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.CreditCardFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.DriversLicenseFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.EmailAddressFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.IbanCodeFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.IpAddressFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.PassportNumberFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.PhoneNumberFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.SsnFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.TrackingNumberFilterStrategy;
+import ai.philterd.phileas.services.strategies.rules.VinFilterStrategy;
+import ai.philterd.phileas.model.filtering.TextFilterResult;
+import ai.philterd.phileas.services.context.DefaultContextService;
+import ai.philterd.phileas.services.disambiguation.vector.InMemoryVectorService;
+import ai.philterd.phileas.services.filters.filtering.PlainTextFilterService;
 
 import java.util.List;
 import java.util.Properties;
@@ -201,19 +200,17 @@ public class Redactor {
 
         // create filter service
         this.policy = new Policy();
-        policy.setName("default");
         policy.setIdentifiers(identifiers);
         Properties properties = new Properties();
-        PhileasConfiguration configuration = new PhileasConfiguration(properties, "phileas");
-        CacheService cacheService = new InMemoryCache();
-        this.filterService = new PhileasFilterService(configuration, cacheService);
+        PhileasConfiguration configuration = new PhileasConfiguration(properties);
+        this.filterService = new PlainTextFilterService(configuration, new DefaultContextService(), new InMemoryVectorService(), null);
     }
 
-    private final PhileasFilterService filterService;
+    private final PlainTextFilterService filterService;
     private final Policy policy;
 
-    public FilterResponse filter(String s) throws Exception {
-        return filterService.filter(policy, "context_id", "document_id", s, MimeType.TEXT_PLAIN);
+    public TextFilterResult filter(String s) throws Exception {
+        return filterService.filter(policy, "context_id", s);
     }
 
 }

@@ -28,7 +28,7 @@ By adding `json` as the final argument, the benchmark will output a single JSON 
 Example JSON output:
 ```json
 {
-  "phileas_version": "2.13.0-SNAPSHOT",
+  "phileas_version": "4.4.0",
   "document": "gettysberg_address",
   "redactor": "mask_all",
   "workload_millis": 1000,
